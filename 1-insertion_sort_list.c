@@ -1,45 +1,50 @@
 #include "sort.h"
 
 /**
- * swap_ints - Swap two integers in an array.
- * @a: The first integer to swap.
- * @b: The second integer to swap.
+ * swap_nodes - Swap two nodes in a listint_t doubly-linked list.
+ * @h: A pointer to the head of the doubly-linked list.
+ * @n1: A pointer to the first node to swap.
+ * @n2: The second node to swap.
  */
-void swap_ints(int *a, int *b)
-{
-	int tmp;
 
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+void swap_nodes(listint_t **h, listint_t **n1, listint_t *n2)
+{
+	(*n1)->next = n2->next;
+	if (n2->next != NULL)
+		n2->next->prev = *n1;
+	n2->prev = (*n1)->prev;
+	n2->next = *n1;
+	if ((*n1)->prev != NULL)
+		(*n1)->prev->next = n2;
+	else
+		*h = n2;
+	(*n1)->prev = n2;
+	*n1 = n2->prev;
 }
 
 /**
- * selection_sort - Sort an array of integers in ascending order
- *                  using the selection sort algorithm.
- * @array: An array of integers.
- * @size: The size of the array.
+ * insertion_sort_list - Sorts a doubly linked list of integers
+ *                       using the insertion sort algorithm.
+ * @list: A pointer to the head of a doubly-linked list of integers.
  *
- * Description: Prints the array after each swap.
+ * Description: Prints the list after each swap.
  */
-void selection_sort(int *array, size_t size)
-{
-	int *min;
-	size_t i, j;
 
-	if (array == NULL || size < 2)
+void insertion_sort_list(listint_t **list)
+{
+	listint_t *iter, *insert, *tmp;
+
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
 		return;
 
-	for (i = 0; i < size - 1; i++)
+	for (iter = (*list)->next; iter != NULL; iter = tmp)
 	{
-		min = array + i;
-		for (j = i + 1; j < size; j++)
-			min = (array[j] < *min) ? (array + j) : min;
-
-		if ((array + i) != min)
+		tmp = iter->next;
+		insert = iter->prev;
+		while (insert != NULL && iter->n < insert->n)
 		{
-			swap_ints(array + i, min);
-			print_array(array, size);
+			swap_nodes(list, &insert, iter);
+			print_list((const listint_t *)*list);
 		}
 	}
 }
