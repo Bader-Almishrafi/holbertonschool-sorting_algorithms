@@ -1,9 +1,9 @@
 #include "sort.h"
 
 /**
- * shell_sort - Sorts an array of integers using Shell sort (Knuth sequence)
- * @array: Array of integers
- * @size: Size of the array
+ * shell_sort - Sorts an array using Shell sort (Knuth sequence)
+ * @array: Array to sort
+ * @size: Size of array
  */
 void shell_sort(int *array, size_t size)
 {
@@ -17,7 +17,6 @@ void shell_sort(int *array, size_t size)
 	while (gap < size / 3)
 		gap = gap * 3 + 1;
 
-	/* Perform shell sort */
 	while (gap > 0)
 	{
 		for (i = gap; i < size; i++)
@@ -33,7 +32,9 @@ void shell_sort(int *array, size_t size)
 			array[j] = temp;
 		}
 
+		/* 👇 الطباعة هنا فقط */
 		print_array(array, size);
+
 		gap = (gap - 1) / 3;
 	}
 }
